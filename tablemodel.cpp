@@ -120,16 +120,13 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
 //! [3]
 
 //! [4]
-bool TableModel::insertRows(int position, int rows, const QModelIndex &index)
-{
-    Q_UNUSED(index);
-    beginInsertRows(QModelIndex(), position, position + rows - 1);
+void TableModel::addContact(const Contact& contact) {
+	// The beginInsertRows and endInsertRows are used
+	beginInsertRows(QModelIndex(), 0, 0);
 
-    for (int row = 0; row < rows; ++row)
-        contacts.insert(position, { QString(), QString() });
+	contacts.insert(0, contact);
 
-    endInsertRows();
-    return true;
+	endInsertRows();
 }
 //! [4]
 

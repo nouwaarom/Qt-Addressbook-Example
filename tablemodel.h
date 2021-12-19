@@ -97,8 +97,10 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+	// Functions for updating the model from the widget side.
+	void addContact(const Contact& contact);
+
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     const QList<Contact> &getContacts() const;
 
