@@ -141,7 +141,7 @@ void AddressWidget::removeEntry()
 
     for (QModelIndex index : indexes) {
         int row = proxy->mapToSource(index).row();
-        table->removeRows(row, 1, QModelIndex());
+        table->removeRows(row, 1);
     }
 
     if (table->rowCount(QModelIndex()) == 0)

@@ -101,7 +101,7 @@ public:
 	void addContact(const Contact& contact);
 
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    bool removeRows(int position, int rows);
     const QList<Contact> &getContacts() const;
 
 private:

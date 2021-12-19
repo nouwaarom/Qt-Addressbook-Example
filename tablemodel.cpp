@@ -131,9 +131,8 @@ void TableModel::addContact(const Contact& contact) {
 //! [4]
 
 //! [5]
-bool TableModel::removeRows(int position, int rows, const QModelIndex &index)
+bool TableModel::removeRows(int position, int rows)
 {
-    Q_UNUSED(index);
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
