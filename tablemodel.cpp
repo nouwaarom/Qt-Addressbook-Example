@@ -121,7 +121,7 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
 
 //! [4]
 void TableModel::addContact(const Contact& contact) {
-	// The beginInsertRows and endInsertRows are used
+	// The beginInsertRows and endInsertRows are used to signal updates to the view.
 	beginInsertRows(QModelIndex(), 0, 0);
 
 	contacts.insert(0, contact);
@@ -129,6 +129,13 @@ void TableModel::addContact(const Contact& contact) {
 	endInsertRows();
 }
 //! [4]
+
+void TableModel::updateContact(const Contact& previous, const Contact& update) {
+	qsizetype row = contacts.indexOf(previous);
+	contacts.replace(row, update);
+
+	emit dataChanged(index(row, 0), index(row, 1), {Qt::DisplayRole, Qt::EditRole});
+}
 
 //! [5]
 bool TableModel::removeRows(int position, int rows)
@@ -186,3 +193,7 @@ const QList<Contact> &TableModel::getContacts() const
     return contacts;
 }
 //! [8]
+
+Contact TableModel::getContact(int row) {
+	return contacts[row];
+}

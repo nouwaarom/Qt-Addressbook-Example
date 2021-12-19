@@ -94,37 +94,28 @@ void AddressWidget::addEntry(const QString &name, const QString &address)
 //! [4a]
 void AddressWidget::editEntry()
 {
-    QTableView *temp = static_cast<QTableView*>(currentWidget());
-    QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel*>(temp->model());
+    auto *temp = dynamic_cast<QTableView*>(currentWidget());
+    auto *proxy = dynamic_cast<QSortFilterProxyModel*>(temp->model());
     QItemSelectionModel *selectionModel = temp->selectionModel();
 
     const QModelIndexList indexes = selectionModel->selectedRows();
-    QString name;
-    QString address;
-    int row = -1;
+	Contact selectedContact;
 
     for (const QModelIndex &index : indexes) {
-        row = proxy->mapToSource(index).row();
-        QModelIndex nameIndex = table->index(row, 0, QModelIndex());
-        QVariant varName = table->data(nameIndex, Qt::DisplayRole);
-        name = varName.toString();
-
-        QModelIndex addressIndex = table->index(row, 1, QModelIndex());
-        QVariant varAddr = table->data(addressIndex, Qt::DisplayRole);
-        address = varAddr.toString();
+        int row = proxy->mapToSource(index).row();
+		selectedContact = table->getContact(row);
     }
 //! [4a]
 
 //! [4b]
     AddDialog aDialog;
     aDialog.setWindowTitle(tr("Edit a Contact"));
-    aDialog.editAddress(name, address);
+    aDialog.editAddress(selectedContact.name, selectedContact.address);
 
     if (aDialog.exec()) {
         const QString newAddress = aDialog.address();
-        if (newAddress != address) {
-            const QModelIndex index = table->index(row, 1, QModelIndex());
-            table->setData(index, newAddress, Qt::EditRole);
+        if (newAddress != selectedContact.address) {
+			table->updateContact(selectedContact, Contact(selectedContact.name, newAddress));
         }
     }
 }
