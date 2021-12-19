@@ -154,12 +154,12 @@ void AddressWidget::setupTabs()
         proxyModel->setFilterRegularExpression(regExp);
         proxyModel->setFilterKeyColumn(0);
 
-        QTableView *tableView = new QTableView;
+        auto *tableView = new QTableView;
         tableView->setModel(proxyModel);
         tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableView->horizontalHeader()->setStretchLastSection(true);
         tableView->verticalHeader()->hide();
-        tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableView->setEditTriggers(QAbstractItemView::DoubleClicked);
         tableView->setSelectionMode(QAbstractItemView::SingleSelection);
         tableView->setSortingEnabled(true);
 

@@ -153,27 +153,24 @@ bool TableModel::removeRows(int position, int rows)
 //! [6]
 bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
-        const int row = index.row();
-        auto contact = contacts.value(row);
+	// We can only edit the address column (1) of valid rows.
+    if (!index.isValid() || role != Qt::EditRole || index.column() != 1) {
+		return false;
+	}
 
-        switch (index.column()) {
-            case 0:
-                contact.name = value.toString();
-                break;
-            case 1:
-                contact.address = value.toString();
-                break;
-            default:
-                return false;
-        }
-        contacts.replace(row, contact);
-        emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
+	QString newAddress = value.toString();
+	if (newAddress.isEmpty()) {
+		return false;
+	}
 
-        return true;
-    }
+	const int row = index.row();
+	auto contact = contacts.value(row);
+	contact.address = value.toString();
 
-    return false;
+	contacts.replace(row, contact);
+	emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
+
+	return true;
 }
 //! [6]
 
@@ -183,7 +180,10 @@ Qt::ItemFlags TableModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+	// We want only the second column (address) to be editable.
+	Qt::ItemFlag flag = (index.column() == 1) ? Qt::ItemIsEditable : Qt::NoItemFlags;
+
+    return QAbstractTableModel::flags(index) | flag;
 }
 //! [7]
 

@@ -100,11 +100,12 @@ public:
 	// Functions for updating the model from the widget side.
 	void addContact(const Contact& contact);
 	void updateContact(const Contact& previous, const Contact& update);
-
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-    bool removeRows(int position, int rows);
-    const QList<Contact> &getContacts() const;
+	bool removeRows(int position, int rows);
+	const QList<Contact> &getContacts() const;
 	Contact getContact(int row);
+
+	// setData is called when the address is edited inline.
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
 private:
     QList<Contact> contacts;

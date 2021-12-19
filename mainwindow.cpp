@@ -81,7 +81,7 @@ void MainWindow::createMenus()
 
     fileMenu->addSeparator();
 
-    QAction *exitAct = new QAction(tr("E&xit"), this);
+    QAction *exitAct = new QAction(tr("&Exit"), this);
     fileMenu->addAction(exitAct);
     connect(exitAct, &QAction::triggered, this, &QWidget::close);
 
